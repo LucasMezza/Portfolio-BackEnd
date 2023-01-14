@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
+
 public class JwtTokenFilter extends OncePerRequestFilter{
 
 	private final static Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
@@ -32,8 +34,8 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 		try {
 			String token = getToken(req);
 			if(token != null && jwtProvider.validateToken(token)) {
-				String nombre = jwtProvider.getNombreUsuarioFromToken(token);
-				UserDetails userDetails = userDetailsService.loadUserByUsername(nombre);
+				String nombreUsuario = jwtProvider.getNombreUsuarioFromToken(token);
+				UserDetails userDetails = userDetailsService.loadUserByUsername(nombreUsuario);
 				UsernamePasswordAuthenticationToken auth = 
 						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			    SecurityContextHolder.getContext().setAuthentication(auth);
